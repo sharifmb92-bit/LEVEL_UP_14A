@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>LEVEL_UP_14</title>
+    
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="LVL14">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3233/3233036.png">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3233/3233036.png">
+
+    <script>
+        const myManifest = {
+            "name": "Level Up 14",
+            "short_name": "LVL14",
+            "start_url": ".",
+            "display": "standalone",
+            "background_color": "#0a0a0a",
+            "theme_color": "#0a0a0a",
+            "icons": [{
+                "src": "https://cdn-icons-png.flaticon.com/512/3233/3233036.png",
+                "sizes": "512x512",
+                "type": "image/png"
+            }]
+        };
+        const blob = new Blob([JSON.stringify(myManifest)], {type: 'application/json'});
+        const manifestURL = URL.createObjectURL(blob);
+        document.querySelector('head').insertAdjacentHTML('beforeend', `<link rel="manifest" href="${manifestURL}">`);
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Plus+Jakarta+Sans:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --panel: #161616;
+            --accent: #00f2fe; /* Cian */
+            --danger: #ff4757; /* Rojo */
+            --text-main: #ffffff;
+            --text-dim: #777777;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0; background-color: var(--bg); color: var(--text-main);
+            display: flex; justify-content: center; overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .app-container {
+            width: 100%; max-width: 420px; min-height: 100vh;
+            background: var(--bg); position: relative; padding-bottom: 100px;
+        }
+
+        header {
+            padding: 50px 25px 30px; text-align: center;
+            background: linear-gradient(to bottom, #1a1a1a, var(--bg));
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif; font-size: 1.8rem; margin: 0;
+            letter-spacing: 4px; color: var(--accent);
+            text-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+        }
+
+        /* Stats */
+        .stats-card {
+            margin: 0 25px 30px; background: var(--panel);
+            border-radius: 20px; padding: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .xp-label { font-family: 'Orbitron'; font-size: 0.7rem; color: var(--text-dim); margin-bottom: 10px; }
+        
+        .xp-total { font-family: 'Orbitron'; font-size: 2.2rem; color: var(--text-main); }
+
+        .progress-bar-bg {
+            width: 100%; height: 12px; background: #222; border-radius: 6px; margin-top: 15px; overflow: hidden;
+        }
+
+        #xpBarFill {
+            width: 0%; height: 100%; 
+            background: linear-gradient(90deg, var(--accent), #4facfe);
+            transition: width 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+        }
+
+        /* Misiones */
+        .mission-list { padding: 0 25px; }
+
+        .mission-item {
+            background: var(--panel); border-radius: 18px; padding: 20px;
+            margin-bottom: 15px; display: flex; align-items: center;
+            justify-content: space-between; border-left: 4px solid var(--danger);
+            transition: 0.3s; cursor: pointer;
+        }
+
+        .mission-item.verified {
+            border-left-color: var(--accent); opacity: 0.6;
+        }
+
+        .mission-content h3 { font-size: 1.1rem; margin: 0; color: var(--text-main); }
+        .mission-content p { font-size: 0.85rem; margin: 5px 0 0; color: var(--text-dim); }
+
+        .xp-badge {
+            font-family: 'Orbitron'; font-size: 0.9rem; color: var(--accent);
+            background: rgba(0, 242, 254, 0.1); padding: 8px 12px; border-radius: 10px;
+        }
+
+        .verified-icon { color: var(--accent); font-weight: 900; font-family: 'Orbitron'; font-size: 0.8rem; }
+
+        /* Recompensas */
+        .rewards-box {
+            margin: 30px 25px; padding: 20px; border-radius: 15px;
+            background: rgba(255, 71, 87, 0.05); border: 1px dashed var(--danger);
+        }
+
+        .rewards-box h4 { margin: 0 0 10px; font-family: 'Orbitron'; font-size: 0.8rem; color: var(--danger); }
+        .rewards-box p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; margin: 0; }
+
+        .nav-bottom {
+            position: fixed; bottom: 0; width: 100%; max-width: 420px; height: 80px;
+            background: var(--panel); display: flex; justify-content: space-around;
+            align-items: center; border-top: 1px solid #222;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <header>
+        <h1>LEVEL_UP_14</h1>
+        <p style="color: var(--text-dim); font-size: 0.8rem; margin-top: 10px;">COMANDO DE OPERACIONES DE BASE</p>
+    </header>
+
+    <div class="stats-card">
+        <div class="xp-label">EXPERIENCIA_TOTAL</div>
+        <div class="xp-total" id="xpText">0</div>
+        <div class="progress-bar-bg">
+            <div id="xpBarFill"></div>
+        </div>
+        <p style="font-size: 0.7rem; color: var(--text-dim); margin-top: 10px;">PRÓXIMA RECOMPENSA A LOS 1000 XP</p>
+    </div>
+
+    <div class="mission-list">
+        <div class="xp-label" style="margin-left: 5px; margin-bottom: 15px;">MISIONES_DISPONIBLES</div>
+
+        <div class="mission-item" onclick="validateMission(this, 1, 25)">
+            <div class="mission-content">
+                <h3>Limpieza_Zeta</h3>
+                <p>Cero envases y papeles escondidos.</p>
+            </div>
+            <div class="xp-badge">+25 XP</div>
+        </div>
+
+        <div class="mission-item" onclick="validateMission(this, 2, 30)">
+            <div class="mission-content">
+                <h3>Logística_Base</h3>
+                <p>Mochila, zapatos y armario OK.</p>
+            </div>
+            <div class="xp-badge">+30 XP</div>
+        </div>
+
+        <div class="mission-item" onclick="validateMission(this, 3, 50)">
+            <div class="mission-content">
+                <h3>Enfoque_Core</h3>
+                <p>40 min de estudio sin móvil.</p>
+            </div>
+            <div class="xp-badge">+50 XP</div>
+        </div>
+    </div>
+
+    <div class="rewards-box">
+        <h4>SISTEMA_DE_CANJE</h4>
+        <p>
+            • 300 XP: Elegir menú de cena.<br>
+            • 500 XP: +45 min tiempo Family Link.<br>
+            • 1000 XP: Bonus Especial (Consultar Auditor).
+        </p>
+    </div>
+
+    <nav class="nav-bottom">
+        <div style="font-size: 1.5rem; color: var(--accent);">📡</div>
+        <div style="font-size: 1.5rem; opacity: 0.3;">⚔️</div>
+        <div style="font-size: 1.5rem; opacity: 0.3;">👤</div>
+    </nav>
+</div>
+
+<script>
+    const CLAVE_AUDITOR = "1414";
+    let points = parseInt(localStorage.getItem('lvl14_points')) || 0;
+    let completedToday = JSON.parse(localStorage.getItem('lvl14_today')) || [];
+
+    function init() {
+        document.getElementById('xpText').innerText = points;
+        updateBar();
+        restoreMissions();
+        
+        // Registrar Service Worker para que sea PWA
+        if ('serviceWorker' in navigator) {
+            const sw = `self.addEventListener('fetch', e => e.respondWith(fetch(e.request)));`;
+            const blob = new Blob([sw], {type: 'application/javascript'});
+            navigator.serviceWorker.register(URL.createObjectURL(blob));
+        }
+    }
+
+    function validateMission(element, id, xp) {
+        if (element.classList.contains('verified')) return;
+
+        // El chico te llama a ti (Auditor) para que metas la clave
+        const pass = prompt("SISTEMA BLOQUEADO. INTRODUCE CLAVE DE AUDITOR:");
+
+        if (pass === CLAVE_AUDITOR) {
+            points += xp;
+            completedToday.push(id);
+            
+            element.classList.add('verified');
+            element.querySelector('.xp-badge').innerHTML = "<span class='verified-icon'>VERIFICADO</span>";
+            
+            save();
+            updateUI();
+            if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+        } else if (pass !== null) {
+            alert("ACCESO DENEGADO: CÓDIGO INCORRECTO");
+        }
+    }
+
+    function updateUI() {
+        document.getElementById('xpText').innerText = points;
+        updateBar();
+    }
+
+    function updateBar() {
+        const progress = Math.min((points % 1000) / 10, 100);
+        document.getElementById('xpBarFill').style.width = progress + '%';
+    }
+
+    function save() {
+        localStorage.setItem('lvl14_points', points);
+        localStorage.setItem('lvl14_today', JSON.stringify(completedToday));
+    }
+
+    function restoreMissions() {
+        const items = document.querySelectorAll('.mission-item');
+        completedToday.forEach(id => {
+            const item = items[id-1];
+            if (item) {
+                item.classList.add('verified');
+                item.querySelector('.xp-badge').innerHTML = "<span class='verified-icon'>VERIFICADO</span>";
+            }
+        });
+    }
+
+    init();
+</script>
+</body>
+</html>
